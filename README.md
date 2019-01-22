@@ -1,8 +1,8 @@
 ﻿# 一，android系统源码下载  
 预先下载操作命令  
-apt install curl 
-apt install repo
-apt update
+apt install curl  
+apt install repo  
+apt update  
 ### 1.创建bin  
 mkdir ~/bin  
 PATH=~/bin:$PATH  
@@ -55,7 +55,7 @@ emulator
  swapon swapfile  
 2.虚拟机内存16g，磁盘大小200G  
 3.编译完成后会在out目录生成各种用于刷机的镜像文件  
-4.[Android系统源码结构目录请参考](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/AndroidOSDieectory.md)  
+4.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/AndroidOSDieectory.md)  
 
 
 # 二，刷机
