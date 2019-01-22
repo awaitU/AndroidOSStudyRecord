@@ -232,7 +232,7 @@
 |– jpeg                        （jpeg库）  
 |– junit                        （JUnit是一个Java语言的单元测试框架）  
 |– kernel-headers        （内核的一些头文件）  
-|– libffi                        （libffi is a foreign function interface library.）  
+|– libffi                        （libffi is a foreign function interface library.）   
 |– libpcap                （网络数据包捕获函数）  
 |– libpng                        （png库）  
 |– libxml2                （xml解析库）  
@@ -247,22 +247,22 @@
 |– ping                        （ping命令）  
 |– ppp                        （pppd拨号命令，好像还没有chat）  
 |– proguard                （Java class file shrinker, optimizer, obfuscator, and preverifier）  
-|– protobuf                （a flexible, efficient, automated mechanism for serializing structured data）  
-|– qemu                        （arm模拟器）
-|– safe-iop                （functions for performing safe integer operations ）
-|– skia                        （skia图形引擎）
-|– sonivox                （sole MIDI solution for Google Android Mobile Phone Platform）
-|– speex                        （Speex编/解码API的使用(libspeex)）
-|– sqlite                        （数据库）
-|– srec                        （Nuance 公司提供的开源连续非特定人语音识别）
-|– strace                        （trace工具）
-|– svox                        （Embedded Text-to-Speech）
-|– tagsoup                （TagSoup是一个Java开发符合SAX的HTML解析器）
-|– tcpdump                （抓TCP包的软件）
-|– tesseract                （Tesseract Open Source OCR Engine.）
-|– tinyxml                （TinyXml is a simple, small, C++ XML parser）
-|– tremor                        （I stream and file decoder provides an embeddable,integer-only library）
-|– webkit                        （浏览器核心）  
+|– protobuf                （a flexible, efficient, automated mechanism for serializing structured data）   
+|– qemu                        （arm模拟器）  
+|– safe-iop                （functions for performing safe integer operations )  
+|– skia                        （skia图形引擎）  
+|– sonivox                （sole MIDI solution for Google Android Mobile Phone Platform）  
+|– speex                        （Speex编/解码API的使用(libspeex)）  
+|– sqlite                        （数据库）  
+|– srec                        （Nuance 公司提供的开源连续非特定人语音识别）  
+|– strace                        （trace工具）  
+|– svox                        （Embedded Text-to-Speech）  
+|– tagsoup                （TagSoup是一个Java开发符合SAX的HTML解析器）  
+|– tcpdump                （抓TCP包的软件）  
+|– tesseract                （Tesseract Open Source OCR Engine.）  
+|– tinyxml                （TinyXml is a simple, small, C++ XML parser）  
+|– tremor                        （I stream and file decoder provides an embeddable,integer-only library）  
+|– webkit                        （浏览器核心）   
 |– wpa_supplicant        （无线网卡管理）  
 |– xmlwriter                （XML 编辑工具）  
 |– yaffs2                        （yaffs文件系统）  
