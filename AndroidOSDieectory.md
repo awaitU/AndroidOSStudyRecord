@@ -1,4 +1,5 @@
-根目录：
+# 根目录  
+
 |– Makefile (全局的Makefile)
 |– bionic                        （Android 标准C运行支持库）
 |– bootable                （Android内核加载器参考）
@@ -16,9 +17,10 @@
 |– system                        （Android初始化进程，蓝牙工具集——C语言）
 |– vendor                （厂商定制代码）
 
-子目录：
+# 子目录
 
-bionic 目录
+bionic 目录  
+
 |– libc                        （C库）
 |   |– arch-arm        （ARM架构，包含系统调用汇编实现）
 |   |– arch-x86        （x86架构，包含系统调用汇编实现）
@@ -58,8 +60,8 @@ bionic 目录
 |– linker                        （动态链接器）
 |– arch                （支持arm和x86两种架构）
 
-bootable 目录
-.
+bootable 目录  
+
 |– bootloader                                （适合各种bootloader的通用代码）
 |   |– legacy                                （估计不能直接使用，可以参考）
 |       |– arch_armv6                （V6架构，几个简单的汇编文件）
@@ -82,8 +84,8 @@ bootable 目录
     |   |– ota                        （OTA Over The Air Updates升级工具）
 |– updater                        （升级器）
 
-build目录
-.
+build目录  
+
 |– core                                （核心编译规则）
 |– history                                （历史记录）
 |– libs                                
@@ -119,7 +121,7 @@ build目录
 |– zipalign                （zip archive alignment tool）
 
 dalvik目录 dalvik虚拟机
-.
+
 |– dalvikvm                        （main.c的目录）
 |– dexdump                        （dex反汇编）
 |– dexlist                                （List all methods in all concrete classes in a DEX file.）
@@ -136,7 +138,7 @@ dalvik目录 dalvik虚拟机
 |– tools                                （工具）
 |– vm                                （虚拟机实现）
 
-development 目录                （开发者需要的一些例程及工具）
+development 目录                （开发者需要的一些例程及工具）  
 |– apps                                （一些核心应用程序）
 |   |– BluetoothDebug        （蓝牙调试程序）
 |   |– CustomLocale        （自定义区域设置）
@@ -191,7 +193,7 @@ development 目录                （开发者需要的一些例程及工具）
 |– testrunner                        （？测试用）
 |– tools                                （一些工具）
 
-external 目录
+external 目录  
 .
 |– aes                        （AES加密）
 |– apache-http                （网页服务器）
@@ -266,7 +268,7 @@ external 目录
 |– yaffs2                        （yaffs文件系统）
 |– zlib                        （a general purpose data compression library）
 
-frameworks 目录        （核心框架——java及C++语言）
+frameworks 目录        （核心框架——java及C++语言）  
 .
 |– base                        （基本内容）
 |   |– api                （？都是xml文件，定义了java的api？）
@@ -303,7 +305,7 @@ frameworks 目录        （核心框架——java及C++语言）
         |– mid        （MID设备）
         |– phone        （手机类设备，一般用这个）
 
-hardware 目录                （部分厂家开源的硬解适配层HAL代码）
+hardware 目录                （部分厂家开源的硬解适配层HAL代码）  
 |– broadcom                        （博通公司）
 |   |– wlan                        （无线网卡）
 |– libhardware                        （硬件库）
@@ -348,7 +350,7 @@ hardware 目录                （部分厂家开源的硬解适配层HAL代码�
     |   |– omx                        （omx组件）
     |– wlan                                （无线网卡）
 
-packages 目录
+packages 目录  
 .
 |– apps                                （应用程序库）
 |   |– AlarmClock                （闹钟）
@@ -409,7 +411,7 @@ packages 目录
 
 ○1里面有一个隐藏的.git文件夹，内容都是一样的，没有有意义的代码，config看似乎是一个下载程序，因此认为这些文件夹下没有实质东西。
 
-prebuilt 目录                        （x86和arm架构下预编译的一些资源）
+prebuilt 目录                        （x86和arm架构下预编译的一些资源）  
 .
 |– android-arm                （arm-android相关）
 |   |– gdbserver                （gdb调试器）
@@ -432,7 +434,7 @@ prebuilt 目录                        （x86和arm架构下预编译的一些�
 |– linux-x86_64                （linux x86 64bit平台）
 |– windows                        （windows平台）
 |– windows-x86_64        （64bit windows平台）
-system 目录                （底层文件系统库、应用及组件——C语言）
+system 目录                （底层文件系统库、应用及组件——C语言）  
 .
 |– Bluetooth                （蓝牙相关）
 |– core                        （系统核心工具盒接口）
@@ -476,7 +478,7 @@ system 目录                （底层文件系统库、应用及组件——C�
     |– ti                        （ti网卡相关工具及库）
 
 
-vendor 目录                        （厂家定制内容）
+vendor 目录                        （厂家定制内容）  
 
 |– aosp                                （android open source project）
 |   |– products                （一些板级规则）
@@ -499,7 +501,7 @@ vendor 目录                        （厂家定制内容）
     |– skins                        （皮肤）
         |– WVGAMedDpi        （WVGA适用的图片）
 
-out 目录                        （厂家定制内容）
+out 目录                        （厂家定制内容）  
 
 |–CaseCheck.txt           
 |–host (一些在主机上用的工具，有一些是二进制程序,有一些是Java的程序)  
