@@ -55,10 +55,10 @@ emulator
  swapon swapfile  
 2.虚拟机内存16g，磁盘大小200G  
 3.编译完成后会在out/target/product/***（MTK/高通）/生成各种用于刷机的镜像文件，第一次编译会花费比较多的时间，我
-第一次编译9.0花了3个钟（机子不行），后来用32G，i7高配编译7.0的大概用了一个半小时。
-4.[参考系统编译原理](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/CompilationPrinciple.md)
-5.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/AndroidOSDieectory.md)  
-6.推荐阅读望舒大佬的《android进阶解密》
+第一次编译9.0花了3个钟（机子不行），后来用32G，i7高配编译7.0的大概用了一个半小时。  
+4.[参考系统编译原理](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/CompilationPrinciple.md)  
+5.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/AndroidOSDieectory.md)    
+6.推荐阅读望舒大佬的《android进阶解密》  
 
 
 # 二，刷机

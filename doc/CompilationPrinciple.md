@@ -49,7 +49,7 @@ uboot.img android启动时第一个加载的镜像，初始化硬件和基本输
 注意：  
 1.刷机是在手机端创建分区目录并解压镜像的过程。  
 2.手机分区结构图请参考：  
-(https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/zone.png)  
+![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/zone.png)  
 
 
 
