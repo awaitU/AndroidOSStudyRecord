@@ -269,7 +269,7 @@
 |– zlib                        （a general purpose data compression library）  
 
 ## frameworks 目录        （核心框架——java及C++语言）    
-.
+
 |– base                        （基本内容）  
 |   |– api                （？都是xml文件，定义了java的api？）  
 |   |– awt                （AWT库）  
@@ -501,37 +501,4 @@
 |– skins                        （皮肤）  
 |– WVGAMedDpi        （WVGA适用的图片）  
 
-## out 目录                        （厂家定制内容）    
-
-|–CaseCheck.txt             
-|–host (一些在主机上用的工具，有一些是二进制程序,有一些是Java的程序)    
-|–common       
-|– obj（JAVA库）         
-|–Linux-x86/darwin-x86  
-|– bin（二进制程序）  
-|– framework（JAVA库,＊.jar文件）  
-|– lib（共享库*.so）  
-|– obj（中间生成的目标文件）  
-|–target        (表示目标机，如果编译时候定义TARGET_STRIP_MODULE=false的话，这个目录为debug/target)                     
-|–common  
-|– R （资源文件）  
-|– docs  
-|– obj （目标文件）  
-|–product  
-|– generic  
-|– data （存放数据的文件系统）  
-|– obj（目录中包含了各种JAVA应用，与common/obj/APPS相对应，但是已经打成了APK包）  
-|–SHARED_LIBRARIES中存放所有动态库  
-|–STATIC_LIBRARIES中存放所有静态库  
-|– root  
-|– symbols  
-|– system（主要的文件系统）  
-|– Android -info.txt  
-|– clean_steps.mk  
-|– ramdisk.img  
-|– system.img  
-|– userdata.img  
-|–userdata-qemu.img  
-|–obj  
-|–APPS(包含了JAVA应用程序生成的目标，每个应用程序对应其中一个子目录，将结合每个应用程序的原始文件生成Android 应用程序的APK包)  
-|–JAVA_LIBRARIES      （包含了JAVA的库，每个库对应其中一个子目录）  
+## out 目录                        （主要是编译生成的镜像文件）    

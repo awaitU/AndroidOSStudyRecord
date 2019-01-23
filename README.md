@@ -54,8 +54,11 @@ emulator
  mkswap swapfile  
  swapon swapfile  
 2.虚拟机内存16g，磁盘大小200G  
-3.编译完成后会在out目录生成各种用于刷机的镜像文件  
-4.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/AndroidOSDieectory.md)  
+3.编译完成后会在out/target/product/***（MTK/高通）/生成各种用于刷机的镜像文件，第一次编译会花费比较多的时间，我
+第一次编译9.0花了3个钟（机子不行），后来用32G，i7高配编译7.0的大概用了一个半小时。
+4.[参考系统编译原理](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/CompilationPrinciple.md)
+5.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/AndroidOSDieectory.md)  
+6.推荐阅读望舒大佬的《android进阶解密》
 
 
 # 二，刷机
@@ -63,15 +66,15 @@ emulator
 然后解压刷机包，解压后我们可以得到 boot.img、recovery.img、system.img、bootloader 文件，正是这些文件构成  
 了Android 设备的系统。让设备进入 fastboot 环境。有 2 种方法:    
 执行 adb reboot bootloader或者同时按住增加音量和电源键开机。  
-fastboot  flashing  unlock    # 设备解锁，开始刷机  
+fastboot  flashing  unlock    
 fastboot  flash  boot   C:\Users\Pacewear\Desktop\out\boot.img    # 刷入 boot 分区。如果修改了 kernel 代码，则应该刷入此分区以生效  
-fastboot  flash  recovery  C:\Users\Pacewear\Desktop\out\recovery.img    # 刷入 recovery 分区  
-fastboot  flash  country   C:\Users\Pacewear\Desktop\out\country.img    # 刷入 country 分区。这个分区是开发组自己划分的，别的 Android 设备上不一定有  
-fastboot  flash  system   C:\Users\Pacewear\Desktop\out\system.img    # 刷入 system 分区。如果修改的代码会影响 out/system/ 路径下生成的文件，则应该刷入此分区以生效   
-fastboot  flash  bootloader   C:\Users\Pacewear\Desktop\out\bootloader    # 刷入 bootloader  
+fastboot  flash  recovery  C:\Users\Pacewear\Desktop\out\recovery.img   
+fastboot  flash  country   C:\Users\Pacewear\Desktop\out\country.img   
+fastboot  flash  system   C:\Users\Pacewear\Desktop\out\system.img     
+fastboot  flash  bootloader   C:\Users\Pacewear\Desktop\out\bootloader    
 fastboot  erase  frp    # 擦除 frp 分区，frp 即 Factory Reset Protection，用于防止用户信息在手机丢失后外泄  
 fastboot  format  data    # 格式化 data 分区
-fastboot  continue    # 自动重启设备
+fastboot  continue    
 
 # 三，认识zygote（后续补充）
 # 四，认识AMS（后续补充）
