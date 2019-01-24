@@ -1,4 +1,10 @@
-﻿# 一，android系统源码下载  
+﻿# 前言
+  自己太懒了，立个flag，我每天在这里至少要有一个提交，题外话，哈哈哈。  
+  众所周知，Android系统是一个复杂的大系统，学习起来说不吃力是不可能的，因此学习的方法与方向就很重
+要了，要么注重Framework，要么专注音视频，要么专注蓝牙，wifi，NFC等。而学习Android源码有助于更好的
+理解代码，追溯问题.在这里我将会将自己所见所闻点滴记录下来，不断更新，也是方便以后查阅与分享。很庆
+幸有在腾讯系统部门学习的机会，让我对Android的理解更加深邃，感谢与我一路走来的小伙伴，再次感谢！
+# 一，android系统源码下载  
 预先下载操作命令  
 apt install curl  
 apt install repo  
@@ -76,7 +82,29 @@ fastboot  erase  frp    # 擦除 frp 分区，frp 即 Factory Reset Protection�
 fastboot  format  data    # 格式化 data 分区
 fastboot  continue    
 
-# 三，认识zygote（后续补充）
-# 四，认识AMS（后续补充）
-# 五，认识PMS（后续补充）
-# 六，认识WMS（后续补充）
+# 三，开机流程
+# 四，认识zygote
+1.简介  
+在android系统中，应用程序进程以及运行系统的关键服务的SystemServer进程都是由Zygote进程创建的，我们也将它称为孵化器，他通过fork（复制进程）  
+的形式来创建应用程序进程和SystemServer进程。  
+2.Zygote的启动  
+init启动zygote时主要是调用app_main.cppde main函数中的AppRuntime的start方法来启动Zygote。  
+
+# 五，认识SystemServer
+SystemServer是在ZygoteInit中被启动，它的主要作用就是开启并注册引导服务，核心服务及其他系统服务。  
+
+# 六，认识AMS
+1.AMS统一调度所有应用程序的Activity,并且四大组件的注册与启动过程都与之息息相关。  
+2.内存管理。  
+
+# 七，认识PMS
+1.与apk的安装与卸载相关 
+
+# 八，认识WMS
+1.WMS控制所有Window的显示与隐藏以及要显示的位置  
+
+# 九，源码与Handler机制
+# 十，源码与View的绘制
+# 十一，源码与事件分发机制
+
+To Be Continue...
