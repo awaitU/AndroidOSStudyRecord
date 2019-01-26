@@ -54,7 +54,7 @@ make -j8
 ### 12.运行模拟器  
 emulator
 
-<font color=red size=20 face="黑体">注意</font>  
+<font color=ff0000 size=10 face="黑体">注意</font>  
 1.交换区间大小至少8g：  
  dd if=/dev/zero of=swapfile bs=1M count=2048  
  mkswap swapfile  
