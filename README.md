@@ -1,5 +1,5 @@
 ﻿# 前言
-  自己太懒了，立个flag，我每天在这里至少要有一个提交，题外话，哈哈哈。  
+  自己太懒了，立个flag，我每周在这里至少要有一个提交，题外话，追求质量，哈哈哈。  
   众所周知，Android系统是一个复杂的大系统，学习起来说不吃力是不可能的，因此学习的方法与方向就很重
 要了，要么注重Framework，要么专注音视频，要么专注蓝牙，wifi，NFC等。而学习Android源码有助于更好的
 理解代码，追溯问题.在这里我将会将自己所见所闻点滴记录下来，不断更新，也是方便以后查阅与分享。很庆
@@ -54,17 +54,33 @@ make -j8
 ### 12.运行模拟器  
 emulator
 
-注意  
-1.交换区间大小至少8g  
+<font color=red size=20 face="黑体">注意</font>  
+1.交换区间大小至少8g：  
  dd if=/dev/zero of=swapfile bs=1M count=2048  
  mkswap swapfile  
  swapon swapfile  
-2.虚拟机内存16g，磁盘大小200G  
+2.虚拟机内存16g，磁盘大小200G。  
 3.编译完成后会在out/target/product/***（MTK/高通）/生成各种用于刷机的镜像文件，第一次编译会花费比较多的时间，我
 第一次编译9.0花了3个钟（机子不行），后来用32G，i7高配编译7.0的大概用了一个半小时。  
-4.[参考系统编译原理](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/CompilationPrinciple.md)  
-5.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/AndroidOSDieectory.md)    
-6.推荐阅读望舒大佬的《android进阶解密》  
+4.重新编译：
+在源码根目录执行：
+make clobber
+make clobber的功能是把上一次make命令生成的文件或目录清除掉，效果比make clean更严格。
+5.编译指定模块命令：  
+5.1 make bootimage  
+– boot.img  
+5.2 make systemimage  
+– system.img (这个system.img 是 从 out/target/product/xxxx/system 制作打包的)  
+5.3 make userdataimage  
+– userdata.img  
+5.4make ramdisk  
+– ramdisk.img  
+5.5.make snod  
+– 快速打包system.img  
+6.编译使用命令“make -j8 WITH_DEXPREOPT=false”大大减小最终生成的镜像大小。  
+7.[参考系统编译原理](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/CompilationPrinciple.md)。  
+8.[参考Android系统源码结构目录](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/doc/AndroidOSDieectory.md)。    
+9.推荐阅读望舒大佬的《android进阶解密》。  
 
 
 # 二，刷机
@@ -83,6 +99,7 @@ fastboot  format  data    # 格式化 data 分区
 fastboot  continue    
 
 # 三，开机流程
+
 # 四，认识zygote
 1.简介  
 在android系统中，应用程序进程以及运行系统的关键服务的SystemServer进程都是由Zygote进程创建的，我们也将它称为孵化器，他通过fork（复制进程）  
