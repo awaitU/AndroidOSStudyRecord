@@ -53,8 +53,8 @@ lunch aosp_arm64-eng
 make -j8
 ### 12.运行模拟器  
 emulator
-<font color=#00ffff>  字体改成蓝色了 </font>  
-<font color=#ff0000>注意</font>  
+
+注意!  
 1.交换区间大小至少8g：  
  dd if=/dev/zero of=swapfile bs=1M count=2048  
  mkswap swapfile  
@@ -99,6 +99,40 @@ fastboot  format  data    # 格式化 data 分区
 fastboot  continue    
 
 # 三，开机流程
+启动过程：  Loader -> Kernel -> Native -> Framework -> App  
+1.1  Loader层  
+开机通电时首先会加载Bootloader，Bootloader会读取 ROM 找到操作系统并将 Linux 内核加载到 RAM 中。  
+Boot ROM: 当手机处于关机状态时，长按Power键开机，引导芯片开始从固化在ROM里的预设出代码开始执行，然后加载引导程序到RAM；  
+Boot Loader：这是启动Android系统之前的引导程序，主要是检查RAM，初始化硬件参数等功能。  
+
+1.2  Kernel层  
+Kernel是指Android内核层，到这里才刚刚开始进入Android系统，显示开机第一帧为一只可爱的吉祥物企鹅。  
+启动Kernel的swapper进程(pid=0)：该进程又称为idle进程, 系统初始化过程Kernel由无到有开创的第一个进程, 用于初始化进程管理、内存管理，加载Display,Camera Driver，Binder Driver等相关工作；  
+启动kthreadd进程（pid=2）：是Linux系统的内核进程，会创建内核工作线程kworkder，软中断线程ksoftirqd，thermal等内核守护进程。kthreadd进程是所有内核进程的鼻祖。  
+
+1.3  Native层  
+Native层主要包括init孵化来的用户空间的守护进程、HAL层以及开机动画等。启动init进程(pid=1),是Linux系统的用户进程，init进程是所有用户进程的鼻祖。  
+通过解析init.rc 脚本系统启动了以下几个重要的服务：  
+service_manager：启动 binder IPC，管理所有的 Android 系统服务  
+mountd：设备安装 Daemon，负责设备安装及状态通知  
+debuggerd：启动 debug system，处理调试进程的请求  
+rild：启动 radio interface layer daemon 服务，处理电话相关的事件和请求   
+media_server：启动 AudioFlinger，MediaPlayerService 和 CameraService，负责多媒体播放相关的功能，包括音视频解码  
+surface_flinger：启动 SurfaceFlinger 负责显示输出  
+zygote：进程孵化器，启动 Android Java VMRuntime 和启动 systemserver，负责 Android 应用进程的孵化工作  
+
+1.4  Framework层  
+PMS注册并安装出厂app。  
+
+1.5 App层
+Zygote进程孵化出的第一个App进程是Launcher，这是用户看到的桌面App，获取app图标并展示在桌面上，  
+Zygote进程还会创建Browser，Phone，Email等App进程，每个App至少运行在一个进程上，  
+所有的App进程都是由Zygote进程fork生成的，并且每一个app进程是单独的虚拟机。  
+
+1.6 Syscall && JNI  
+Native与Kernel之间有一层系统调用(SysCall)层；  
+Java层与Native(C/C++)层之间的纽带JNI。  
+
 
 # 四，认识zygote
 1.简介  
