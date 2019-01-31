@@ -10,12 +10,12 @@ apt install curl
 apt install repo  
 apt update  
 ### 1.创建bin  
-'''
+```
 mkdir ~/bin  
 PATH=~/bin:$PATH  
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo  
 chmod a+x ~/bin/repo  
-'''
+```
 ### 2.修改~/.bashrc,~/bin/repo  
 vim ~/.bashrc  
 增加  
