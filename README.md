@@ -159,15 +159,14 @@ Binder 在 Native 层以 ioctl 的方式与 Binder 驱动通讯。
 3. Binder 机制  
 ![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/binderframework.jpeg)    
 
-首先需要注册服务端，只有注册了服务端，客户端才有通讯的目标，服务端通过 ServiceManager 注册服务，注册的  
-过程就是向 Binder 驱动的全局链表  
-binder_procs 中插入服务端的信息（binder_proc 结构体，每个 binder_proc 结构体中都有 todo 任务队列），  
-然后向 ServiceManager 的 svcinfo列表中缓存一下注册的服务。  
-有了服务端，客户端就可以跟服务端通讯了，通讯之前需要先获取到服务，拿到服务的代理，也可以理解为引用。  
+首先需要注册服务端，只有注册了服务端，客户端才有通讯的目标，服务端通过 ServiceManager 注册服务，注册的   
+过程就是向 Binder 驱动的全局链表binder_procs 中插入服务端的信息（binder_proc 结构体，每个 binder_proc  
+结构体中都有 todo 任务队列），然后向 ServiceManager 的 svcinfo列表中缓存一下注册的服务。有了服务端，  
+客户端就可以跟服务端通讯了，通讯之前需要先获取到服务，拿到服务的代理，也可以理解为引用。   
 比如下面的代码：  
 
-//获取WindowManager服务引用
-WindowManager wm = (WindowManager)getSystemService(getApplication().WINDOW_SERVICE);
+//获取WindowManager服务引用  
+WindowManager wm = (WindowManager)getSystemService(getApplication().WINDOW_SERVICE);  
 
 获取服务端的方式就是通过 ServiceManager 向 svcinfo 列表中查询一下返回服务端的代理，svcinfo 列表就是所有已注册服  
 务的通讯录，保存了所有注册的服务信息。  
@@ -176,6 +175,7 @@ WindowManager wm = (WindowManager)getSystemService(getApplication().WINDOW_SERVI
 动向服务端的 todo 队列里面插入一条事务，执行完之后把执行结果通过 copy_to_user()将内核的结果拷贝到用户空间（这里  
 只是执行了拷贝命令，并没有拷贝数据，binder只进行一次拷贝），唤醒等待的客户端并把结果响应回来，这样就完成了一次  
 通讯。怎么样是不是很简单，以上就是 Binder 机制的主要通讯方式，下面我们来看看具体实现。  
+
 4. Binder 驱动  
 我们先来了解下用户空间与内核空间是怎么交互的。  
 ![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/binderdevice.jpeg)      
@@ -183,36 +183,36 @@ WindowManager wm = (WindowManager)getSystemService(getApplication().WINDOW_SERVI
 先了解一些概念  
 用户空间/内核空间  
 详细解释可以参考 Kernel Space Definition； 简单理解如下：  
-Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。 为了安全，它们是隔离的，即使用户的程序崩溃   
-了，内核也不受影响。    
-Kernel space 可以执行任意命令，调用系统的一切资源； User space 只能执行简单的运算，不能直接调用系统资源，必须通过  
-系统接口（又称 system call），才能向内核发出指令。    
+Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。 为了安全，它们是隔离的，即使用户的程序  
+崩溃了，内核也不受影响。Kernel space 可以执行任意命令，调用系统的一切资源； User space 只能执行简单的运算，不  
+能直接调用系统资源，必须通过系统接口（又称 system call），才能向内核发出指令。    
    
 系统调用/内核态/用户态  
-虽然从逻辑上抽离出用户空间和内核空间；但是不可避免的的是，总有那么一些用户空间需要访问内核的资源；比如应用程序访问  
-文件，网络是很常见的事情，怎么办呢？   
+虽然从逻辑上抽离出用户空间和内核空间；但是不可避免的的是，总有那么一些用户空间需要访问内核的资源；比如应用程序  
+访问  文件，网络是很常见的事情，怎么办呢？   
 Kernel space can be accessed by user processes only through the use of system calls.    
-用户空间访问内核空间的唯一方式就是系统调用；通过这个统一入口接口，所有的资源访问都是在内核的控制下执行，以免导致对  
-用户程序对系统资源的越权访问，从而保  障了系统的安全和稳定。用户软件良莠不齐，要是它们乱搞把系统玩坏了怎么办？因此    
-对于某些特权操作必须交给安全可靠的内核来执行。   
-当一个任务（进程）执行系统调用而陷入内核代码中执行时，我们就称进程处于内核运行态（或简称为内核态）此时处理器处于特  
-权级最高的（0级）内核代码中执行。当  进程在执行用户自己的代码时，则称其处于用户运行态（用户态）。即此时处理器在特权  
-级最低的（3级）用户代码中运行。处理器在特权等级高的时候才能执行那些特权CPU指令。   
+用户空间访问内核空间的唯一方式就是系统调用；通过这个统一入口接口，所有的资源访问都是在内核的控制下执行，以免导  
+致对用户程序对系统资源的越权访问，从而保  障了系统的安全和稳定。用户软件良莠不齐，要是它们乱搞把系统玩坏了怎么  
+办？因此对于某些特权操作必须交给安全可靠的内核来执行。      
+当一个任务（进程）执行系统调用而陷入内核代码中执行时，我们就称进程处于内核运行态（或简称为内核态）此时处理器处  
+于特权级最高的（0级）内核代码中执行。当  进程在执行用户自己的代码时，则称其处于用户运行态（用户态）。即此时处  
+理器在特权级最低的（3级）用户代码中运行。处理器在特权等级高的时候才能执行那些特权CPU指令。   
 
 内核模块/驱动    
-通过系统调用，用户空间可以访问内核空间，那么如果一个用户空间想与另外一个用户空间进行通信怎么办呢？很自然想到的是让  
-操作系统内核添加支持；传统的 Linux 通信机制，比如 Socket，管道等都是内核支持的；但是 Binder 并不是 Linux 内核的一   
-部分，它是怎么做到访问内核空间的呢？ Linux 的动态可加载内核模块（Loadable Kernel Module，LKM）机制解决了这个问题；    
-模块是具有独立功能的程序，它可以被单独编译，但不能独立运行。它在运行时被链接到内核作为内核的一部分在内核空间运行。      
-这样，Android系统可以通过添加一个内核模块运行在内核空间，用户进程之间的通过这个模块作为桥梁，就可以完成通信了。      
+通过系统调用，用户空间可以访问内核空间，那么如果一个用户空间想与另外一个用户空间进行通信怎么办呢？很自然想到   
+的是让操作系统内核添加支持；传统的 Linux 通信机制，比如 Socket，管道等都是内核支持的；但是 Binder 并不是Linux  
+内核的一部分，它是怎么做到访问内核空间的呢？ Linux 的动态可加载内核模块（Loadable Kernel Module，LKM）机制解   
+决了这个问题；模块是具有独立功能的程序，它可以被单独编译，但不能独立运行。它在运行时被链接到内核作为内核的一   
+部分在内核空间运行。这样，Android系统可以通过添加一个内核模块运行在内核空间，用户进程之间的通过这个模块作为   
+桥梁，就可以完成通信了。      
 
 在 Android 系统中，这个运行在内核空间的，负责各个用户进程通过 Binder 通信的内核模块叫做 Binder 驱动;   
-驱动程序一般指的是设备驱动程序（Device Driver），是一种可以使计算机和设备通信的特殊程序。相当于硬件的接口，操作系统  
-只有通过这个接口，才能控制硬件设备的工作；驱动就是操作硬件的接口，为了支持Binder通信过程，Binder 使用了一种“硬件”，  
-因此这个模块被称之为驱动。熟悉了上面这些概念，我们再来看下上面的图，用户空间中 binder_open(), binder_mmap(),   
-binder_ioctl() 这些方法通过 system call 来调用内核空间 Binder 驱动中的方法。内核空间与用户空间共享内存通过   
-copy_from_user(), copy_to_user() 内核方法来完成用户空间与内核空间内存的数据传输。Binder驱动中有一个全局的 binder_procs  
-链表保存了服务端的进程信息。  
+驱动程序一般指的是设备驱动程序（Device Driver），是一种可以使计算机和设备通信的特殊程序。相当于硬件的接口，  
+操作系统只有通过这个接口，才能控制硬件设备的工作；驱动就是操作硬件的接口，为了支持Binder通信过程，Binder使  
+用了一种“硬件”，因此这个模块被称之为驱动。熟悉了上面这些概念，我们再来看下上面的图，用户空间中 binder_open(),  
+binder_mmap(), binder_ioctl() 这些方法通过 system call 来调用内核空间 Binder 驱动中的方法。内核空间与用户空  
+间共享内存通过copy_from_user(), copy_to_user() 内核方法来完成用户空间与内核空间内存的数据传输。Binder驱动中  
+有一个全局的 binder_procs链表保存了服务端的进程信息。  
 
 # 六，认识SystemServer
 SystemServer是在ZygoteInit中被启动，它的主要作用就是开启并注册引导服务，核心服务及其他系统服务。  
