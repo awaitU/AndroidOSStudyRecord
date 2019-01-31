@@ -136,8 +136,8 @@ Java层与Native(C/C++)层之间的纽带JNI。
 
 # 四，认识zygote
 1.简介  
-在android系统中，应用程序进程以及运行系统的关键服务的SystemServer进程都是由Zygote进程创建的，我们也将它称为孵化器，他通过fork（复制进程）  
-的形式来创建应用程序进程和SystemServer进程。  
+在android系统中，应用程序进程以及运行系统的关键服务的SystemServer进程都是由Zygote进程创建的，我们也将  
+它称为孵化器，他通过fork（复制进程）的形式来创建应用程序进程和SystemServer进程。  
 2.Zygote的启动  
 init启动zygote时主要是调用app_main.cppde main函数中的AppRuntime的start方法来启动Zygote。  
 
