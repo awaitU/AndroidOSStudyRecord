@@ -6,7 +6,7 @@
 更多的是对Android系统学习的总结，需自行下载源码并跟读源码验证。很庆幸有在腾讯系统部门学习的机会，  
 让我对Android的理解更加深邃，感谢与我一路走来的小伙伴，再次感谢！
 &nbsp;&nbsp;在学习之前先看一下Android系统架构图：    
-![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/binderos.jpeg)
+![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/androidos.png)
 
 # 一，android系统源码下载  
 预先下载操作命令  
