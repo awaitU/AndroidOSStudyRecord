@@ -4,7 +4,10 @@
 要了，要么注重Framework，要么专注音视频，要么专注蓝牙，wifi，NFC等。而学习Android源码有助于更好的  
 理解代码，追溯问题.在这里我将会将自己所见所闻点滴记录下来，不断更新，也是方便以后查阅与分享，这里  
 更多的是对Android系统学习的总结，需自行下载源码并跟读源码验证。很庆幸有在腾讯系统部门学习的机会，  
-让我对Android的理解更加深邃，感谢与我一路走来的小伙伴，再次感谢！  
+让我对Android的理解更加深邃，感谢与我一路走来的小伙伴，再次感谢！
+&nbsp;&nbsp;在学习之前先看一下Android系统架构图：    
+![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/binderos.jpeg)
+
 # 一，android系统源码下载  
 预先下载操作命令  
 apt install curl  
