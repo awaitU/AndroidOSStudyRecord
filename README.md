@@ -5,7 +5,8 @@
 理解代码，追溯问题.在这里我将会将自己所见所闻点滴记录下来，不断更新，也是方便以后查阅与分享，这里  
 更多的是对Android系统学习的总结，需自行下载源码并跟读源码验证。很庆幸有在腾讯系统部门学习的机会，  
 让我对Android的理解更加深邃，感谢与我一路走来的小伙伴，再次感谢！
-&nbsp;&nbsp;在学习之前先看一下Android系统架构图：    
+&nbsp;&nbsp;在学习之前先看一下Android系统架构图：  
+  
 ![image](https://github.com/awaitU/AndroidOSStudyRecord/blob/master/res/androidos.png)
 
 # 一，android系统源码下载  
@@ -221,9 +222,130 @@ binder_mmap(), binder_ioctl() 这些方法通过 system call 来调用内核空�
 有一个全局的 binder_procs链表保存了服务端的进程信息。  
 
 # 六，认识SystemServer
-SystemServer是在ZygoteInit中被启动，它的主要作用就是开启并注册引导服务，核心服务及其他系统服务。  
+1.SystemServer简介
+&nbsp;&nbsp;SystemServer是在ZygoteInit中被启动，它的主要作用就是开启并注册引导服务，核心服务及其他系统服务并
+启动Launcher展示桌面app图标。 
+2.SystemServer.java核心代码：
+```
+    //首先走到main函数，执行run函数
+    public static void main(String[] args) {
+        new SystemServer().run();
+    }
+	//开启各种服务
+	private void run() {
+	...
+	    //Start services.
+        try {
+            traceBeginAndSlog("StartServices");
+            startBootstrapServices();
+            startCoreServices();
+            startOtherServices();
+            SystemServerInitThreadPool.shutdown();
+        } catch (Throwable ex) {
+            Slog.e("System", "******************************************");
+            Slog.e("System", "************ Failure starting system services", ex);
+            throw ex;
+        } finally {
+            traceEnd();
+        }
+	...
+	}
+	//以下代码为启动Launcher流程，比较繁琐，先听一首歌压压惊
+	private void startOtherServices() {
+		...
+		mActivityManagerService.systemReady(() -> {
+			...
+            /**
+             * 执行各种SystemService的启动方法，各种SystemService的systemReady方法
+             */
+            ...
+            
+        });
+    }
+	//代码文件：ActivityManagerService.java
+	public void systemReady(final Runnable goingCallback) {
+        ...
+        // Start up initial activity.
+		startHomeActivityLocked(currentUserId, "systemReady");
+        ...
+    }
+	//这个函数从命名也可以看出是开启桌面活动
+	boolean startHomeActivityLocked(int userId, String reason) {
+        if (mFactoryTest == FactoryTest.FACTORY_TEST_LOW_LEVEL
+                && mTopAction == null) {
+            // We are running in factory test mode, but unable to find
+            // the factory test app, so just sit around displaying the
+            // error message and don't try to start anything.
+            return false;
+        }
+        Intent intent = getHomeIntent();
+        ActivityInfo aInfo =
+            resolveActivityInfo(intent, STOCK_PM_FLAGS, userId);
+        if (aInfo != null) {
+            intent.setComponent(new ComponentName(
+                    aInfo.applicationInfo.packageName, aInfo.name));
+            // Don't do this if the home app is currently being
+            // instrumented.
+            aInfo = new ActivityInfo(aInfo);
+            aInfo.applicationInfo = getAppInfoForUser(aInfo.applicationInfo, userId);
+            ProcessRecord app = getProcessRecordLocked(aInfo.processName,
+                    aInfo.applicationInfo.uid, true);
+            if (app == null || app.instrumentationClass == null) {
+                intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mStackSupervisor.startHomeActivity(intent, aInfo, reason);
+            }
+        }
+
+        return true;
+    }
+	/**可以发现，启动Launcher的Intent对象中添加了Intent.CATEGORY_HOME常量，这个其实是一个
+	 *launcher的标志，一般系统的启动页面Activity都会在androidmanifest.xml中配置这个标志，是
+	 *其他普通app所没有的。
+	 */
+	Intent getHomeIntent() {
+        Intent intent = new Intent(mTopAction, mTopData != null ? Uri.parse(mTopData) : null);
+        intent.setComponent(mTopComponent);
+        if (mFactoryTest != FactoryTest.FACTORY_TEST_LOW_LEVEL) {
+            intent.addCategory(Intent.CATEGORY_HOME);
+        }
+        return intent;
+    }
+	/**继续回到我们的startHomeActivityLocked方法，我们发现经过一系列的判断逻辑之后最后调用了
+	 *mActivityStarter.startHomeActivityLocked方法，然后我们可以查看一下该方法的具体实现逻辑：
+	 */
+    void startHomeActivityLocked(Intent intent, ActivityInfo aInfo, String reason) {
+        mSupervisor.moveHomeStackTaskToTop(reason);
+        mLastHomeActivityStartResult = startActivityLocked(null /*caller*/, intent,
+                null /*ephemeralIntent*/, null /*resolvedType*/, aInfo, null /*rInfo*/,
+                null /*voiceSession*/, null /*voiceInteractor*/, null /*resultTo*/,
+                null /*resultWho*/, 0 /*requestCode*/, 0 /*callingPid*/, 0 /*callingUid*/,
+                null /*callingPackage*/, 0 /*realCallingPid*/, 0 /*realCallingUid*/,
+                0 /*startFlags*/, null /*options*/, false /*ignoreTargetSecurity*/,
+                false /*componentSpecified*/, mLastHomeActivityStartRecord /*outActivity*/,
+                null /*container*/, null /*inTask*/, "startHomeActivity: " + reason);
+        if (mSupervisor.inResumeTopActivity) {
+            // If we are in resume section already, home activity will be initialized, but not
+            // resumed (to avoid recursive resume) and will stay that way until something pokes it
+            // again. We need to schedule another resume.
+            mSupervisor.scheduleResumeTopActivities();
+        }
+    }
+	/**接着的流程就是启动Launcher这个桌面app，具体逻辑需要查看Launcher源码。实际就是一个列表显示所有
+	 *app突变及应用名称。
+	 *
+	 */
+	Launcher源码分析：后面补充
+	源码路径：
+	./packages/apps/Launcher2/src/com/android/launcher2/Launcher.java
+    ./packages/apps/Launcher3/src/com/android/launcher3/Launcher.java
+	 
+
+```
+
+ 
 
 # 七，认识AMS
+
 1.AMS统一调度所有应用程序的Activity,并且四大组件的注册与启动过程都与之息息相关。  
 2.内存管理。  
 
